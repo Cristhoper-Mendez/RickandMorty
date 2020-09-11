@@ -31,7 +31,7 @@ const Characters = ({ characters }) => {
     if (favorito) {
       return alertError("Este personaje ya es un favorito.")
     }
-    if (listFavourites.length <= 5) {
+    if (listFavourites.length < 5) {
       return setListFavourites([...listFavourites, favourite]);
     }
     return alertError("Limite de favoritos alcanzado.")
