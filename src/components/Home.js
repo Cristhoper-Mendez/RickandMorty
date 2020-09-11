@@ -1,17 +1,23 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useContext} from "react";
 import axios from "axios";
 
 import Typography from "@material-ui/core/Typography";
 import Footer from "./Footer";
 import Characters from "./characters/Characters";
 import Navbar from "./Navbar";
+import CharacterContext from "../Context/CharacterContext";
 
 const Home = () => {
-  const [characters, setCharacters] = useState([]);
-  const [parameters, setParameters] = useState("");
-  const [pages, setPages] = useState(0);
-  const [actualPage, setActualPage] = useState(1);
-
+  const {
+    characters,
+    parameters,
+    pages,
+    actualPage,
+    setCharacters,
+    setParameters,
+    setPages,
+    setActualPage,
+  } = useContext(CharacterContext);
   useEffect(() => {
     const request = async () => {
       const url = `https://rickandmortyapi.com/api/character/?name=${parameters}&page=${actualPage}`;
@@ -20,9 +26,11 @@ const Home = () => {
 
       setPages(res.data.info.pages);
       setCharacters(res.data.results);
-    }
+    };
+
 
     request();
+    //eslint-disable-next-line
   }, [parameters, actualPage]);
 
   return (

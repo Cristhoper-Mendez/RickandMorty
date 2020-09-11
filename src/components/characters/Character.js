@@ -23,7 +23,8 @@ const useStyles = makeStyles({
 export default function ImgMediaCard({
   character,
   addFavourite,
-  deleteFavourite
+  deleteFavourite,
+  listFavourites,
 }) {
   const classes = useStyles();
 
@@ -54,15 +55,27 @@ export default function ImgMediaCard({
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button
-          size="large"
-          color="primary"
-          onClick={() => addFavourite(character.id)}
-          variant="contained"
-          endIcon={<FavoriteBorderIcon />}
-        >
-          Like
-        </Button>
+        {listFavourites.some((fav) => fav === character.id) ? (
+          <Button
+            size="large"
+            color="secondary"
+            onClick={() => deleteFavourite(character.id)}
+            variant="contained"
+            endIcon={<FavoriteIcon />}
+          >
+            unlike
+          </Button>
+        ) : (
+          <Button
+            size="large"
+            color="primary"
+            onClick={() => addFavourite(character.id)}
+            variant="contained"
+            endIcon={<FavoriteBorderIcon />}
+          >
+            Like
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

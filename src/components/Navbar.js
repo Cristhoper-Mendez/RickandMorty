@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-// import IconButton from "@material-ui/core/IconButton";
-// import MenuIcon from "@material-ui/icons/Menu";
 import TextField from "@material-ui/core/TextField";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
 import Grid from "@material-ui/core/Grid";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import CharacterContext from "../Context/CharacterContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,18 +22,25 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   input: {
-    flexGrow: 7
+    flexGrow: 7,
   },
   color: {
     color: "#DC143C",
   },
-  link:{
-    color: '#fff',
-    textDecoration: 'none'
-  }
+  link: {
+    color: "#fff",
+    textDecoration: "none",
+  },
 }));
 
-export default function Navbar({ setParameters, parameters, setActualPage }) {
+const Navbar = (props) => {
+  console.log(props.location.pathname);
+  const {
+    parameters,
+    setParameters,
+    setActualPage,
+  } = useContext(CharacterContext);
+
   const classes = useStyles();
 
   const [character, saveCharacter] = useState("");
@@ -63,15 +69,20 @@ export default function Navbar({ setParameters, parameters, setActualPage }) {
         <div className={classes.root}>
           <AppBar position="static">
             <Toolbar>
-              <Button
-                color='inherit'
-                size='large'
-                className={classes.button}
-              >
-                <Link to={'/favourites'} className={classes.link}>
-                  Favourites
-                </Link>
-              </Button>
+              {props.location.pathname === "/" ? (
+                <Button color="inherit" onClick={() => setParameters("")} size="large" className={classes.button}>
+                  <Link to={"/favourites"} className={classes.link}>
+                    Favourites
+                  </Link>
+                </Button>
+              ) : (
+                <Button color="inherit" onClick={() => setParameters("")} size="large" className={classes.button}>
+                  <Link to={"/"} className={classes.link}>
+                    Home
+                  </Link>
+                </Button>
+              )}
+
               <TextField
                 label="Search a character"
                 value={character}
@@ -82,7 +93,7 @@ export default function Navbar({ setParameters, parameters, setActualPage }) {
                 color="inherit"
                 startIcon={<SearchIcon />}
                 onClick={() => searchCharacter()}
-                size='large'
+                size="large"
               >
                 Search
               </Button>
@@ -92,7 +103,7 @@ export default function Navbar({ setParameters, parameters, setActualPage }) {
                   startIcon={<ClearIcon />}
                   onClick={() => clearSearch()}
                   className={classes.button}
-                  size='large'
+                  size="large"
                 >
                   Clear Search
                 </Button>
@@ -108,4 +119,6 @@ export default function Navbar({ setParameters, parameters, setActualPage }) {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default withRouter(Navbar);
