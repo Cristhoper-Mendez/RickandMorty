@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import Character from "./Character";
 import Grid from "@material-ui/core/Grid";
-import Alert from "@material-ui/lab/Alert";
 
 const Characters = ({ characters }) => {
   let initialFavourites = JSON.parse(localStorage.getItem("favourites"));
@@ -13,6 +12,7 @@ const Characters = ({ characters }) => {
   const [error, setError] = useState({
     error: false,
     message: "",
+    id: 0
   });
 
   useEffect(() => {
@@ -29,22 +29,24 @@ const Characters = ({ characters }) => {
       return fav === favourite;
     });
     if (favorito) {
-      return alertError("Este personaje ya es un favorito.")
+      return alertError("Este personaje ya es un favorito.", favourite)
     }
     if (listFavourites.length < 5) {
       return setListFavourites([...listFavourites, favourite]);
     }
-    return alertError("Limite de favoritos alcanzado.")
+    return alertError("Limite de favoritos alcanzado.", favourite)
   };
-  const alertError = (msg) => {
+  const alertError = (msg, fav) => {
     setError({
       error: true,
       message: msg,
+      id: fav
     });
     setTimeout(() => {
       setError({
         error: false,
         message: msg,
+        fav: 0
       });
     }, 3000);
   };
@@ -58,13 +60,13 @@ const Characters = ({ characters }) => {
 
   return (
     <Fragment>
-      {error.error ? (
+      {/* {error.error ? (
         <Alert variant="filled" severity="error" align="center">
           {error.message}
         </Alert>
-      ) : null}
+      ) : null} */}
 
-      <Grid spacing={3} container justify="center" pas>
+      <Grid spacing={3} container justify="center" >
         {characters.map((character) => (
           <Grid
             item
@@ -80,6 +82,7 @@ const Characters = ({ characters }) => {
               character={character}
               listFavourites={listFavourites}
               addFavourite={addFavourite}
+              error={error}
               deleteFavourite={deleteFavourite}
             />
           </Grid>

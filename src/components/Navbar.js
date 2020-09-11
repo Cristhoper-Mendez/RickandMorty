@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = (props) => {
-  console.log(props.location.pathname);
+  // console.log(props.location.pathname);
   const {
     parameters,
     setParameters,
@@ -70,13 +70,13 @@ const Navbar = (props) => {
           <AppBar position="static">
             <Toolbar>
               {props.location.pathname === "/" ? (
-                <Button color="inherit" onClick={() => setParameters("")} size="large" className={classes.button}>
+                <Button color="inherit" onClick={() => clearSearch()} size="large" className={classes.button}>
                   <Link to={"/favourites"} className={classes.link}>
                     Favourites
                   </Link>
                 </Button>
               ) : (
-                <Button color="inherit" onClick={() => setParameters("")} size="large" className={classes.button}>
+                <Button color="inherit" onClick={() => clearSearch()} size="large" className={classes.button}>
                   <Link to={"/"} className={classes.link}>
                     Home
                   </Link>

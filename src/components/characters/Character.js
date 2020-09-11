@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles({
   root: {
@@ -25,6 +26,7 @@ export default function ImgMediaCard({
   addFavourite,
   deleteFavourite,
   listFavourites,
+  error
 }) {
   const classes = useStyles();
 
@@ -49,6 +51,11 @@ export default function ImgMediaCard({
           <Typography variant="body2" color="textSecondary" component="p">
             Number of episodes appears: {character.episode.length}
           </Typography>
+          {error.error && character.id === error.id ? (
+            <Alert variant="filled" severity="error" align="center">
+              {error.message}
+            </Alert>
+          ) : null}
           <Typography variant="body2" color="textSecondary" component="p">
             Status: {character.status}
           </Typography>

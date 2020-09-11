@@ -1,7 +1,10 @@
-import React, { Fragment, useEffect, useContext} from "react";
+import React, { Fragment, useEffect, useContext, useState } from "react";
 import axios from "axios";
 
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from "@material-ui/core/Grid";
+
 import Footer from "./Footer";
 import Characters from "./characters/Characters";
 import Navbar from "./Navbar";
@@ -18,16 +21,22 @@ const Home = () => {
     setPages,
     setActualPage,
   } = useContext(CharacterContext);
+
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const request = async () => {
+      setLoading(true);
       const url = `https://rickandmortyapi.com/api/character/?name=${parameters}&page=${actualPage}`;
       const res = await axios.get(url);
       // console.log(res);
 
       setPages(res.data.info.pages);
       setCharacters(res.data.results);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     };
-
 
     request();
     //eslint-disable-next-line
@@ -45,13 +54,25 @@ const Home = () => {
         Rick and Morty Characters
       </Typography>
 
-      <Characters characters={characters} />
+      <Grid container justify="center">
+        {loading ? (
+          <Grid item>
+            <CircularProgress disableShrink size={80} />
+          </Grid>
+        ) : (
+          <Grid>
+            <Characters characters={characters} />
+          </Grid>
+        )}
+      </Grid>
 
-      <Footer
-        pages={pages}
-        setActualPage={setActualPage}
-        actualPage={actualPage}
-      />
+      {loading ? null : (
+        <Footer
+          pages={pages}
+          setActualPage={setActualPage}
+          actualPage={actualPage}
+        />
+      )}
     </Fragment>
   );
 };
