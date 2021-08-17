@@ -33,9 +33,8 @@ const Home = () => {
 
       setPages(res.data.info.pages);
       setCharacters(res.data.results);
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
+
+      setLoading(false);
     };
 
     request();
@@ -67,11 +66,14 @@ const Home = () => {
       </Grid>
 
       {loading ? null : (
-        <Footer
-          pages={pages}
-          setActualPage={setActualPage}
-          actualPage={actualPage}
-        />
+        <>
+          <br />
+          <Footer
+            pages={pages}
+            setActualPage={setActualPage}
+            actualPage={actualPage}
+          />
+        </>
       )}
     </Fragment>
   );
