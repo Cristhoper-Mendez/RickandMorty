@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   input: {
-    flexGrow: 7,
+    flexGrow: 4,
   },
   color: {
     color: "#DC143C",
@@ -35,11 +35,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = (props) => {
   // console.log(props.location.pathname);
-  const {
-    parameters,
-    setParameters,
-    setActualPage,
-  } = useContext(CharacterContext);
+  const { parameters, setParameters, setActualPage } = useContext(
+    CharacterContext
+  );
 
   const classes = useStyles();
 
@@ -49,6 +47,10 @@ const Navbar = (props) => {
   const searchCharacter = () => {
     if (character.trim() === "") {
       setError(true);
+
+      setTimeout(() => {
+        setError(false);
+      }, 2000);
       return;
     }
 
@@ -69,45 +71,61 @@ const Navbar = (props) => {
         <div className={classes.root}>
           <AppBar position="static">
             <Toolbar>
-              {props.location.pathname === "/" ? (
-                <Button color="inherit" onClick={() => clearSearch()} size="large" className={classes.button}>
-                  <Link to={"/favourites"} className={classes.link}>
-                    Favourites
-                  </Link>
-                </Button>
-              ) : (
-                <Button color="inherit" onClick={() => clearSearch()} size="large" className={classes.button}>
-                  <Link to={"/"} className={classes.link}>
-                    Home
-                  </Link>
-                </Button>
-              )}
+              <div className="Contenedor-items">
+                <div>
+                  {props.location.pathname === "/" ? (
+                    <Button
+                      color="inherit"
+                      onClick={() => clearSearch()}
+                      size="large"
+                    >
+                      <Link to={"/favourites"} className={classes.link}>
+                        Favourites
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button
+                      color="inherit"
+                      onClick={() => clearSearch()}
+                      size="large"
+                    >
+                      <Link to={"/"} className={classes.link}>
+                        Home
+                      </Link>
+                    </Button>
+                  )}
+                </div>
 
-              <TextField
-                label="Search a character"
-                value={character}
-                onChange={(e) => saveCharacter(e.target.value)}
-                className={classes.input}
-              />
-              <Button
-                color="inherit"
-                startIcon={<SearchIcon />}
-                onClick={() => searchCharacter()}
-                size="large"
-              >
-                Search
-              </Button>
-              {parameters.trim() !== "" ? (
-                <Button
-                  color="inherit"
-                  startIcon={<ClearIcon />}
-                  onClick={() => clearSearch()}
-                  className={classes.button}
-                  size="large"
-                >
-                  Clear Search
-                </Button>
-              ) : null}
+                <div>
+                  <TextField
+                    className="Input-Search"
+                    label="Search"
+                    value={character}
+                    variant="filled"
+                    onChange={(e) => saveCharacter(e.target.value)}
+                  />
+
+                  {parameters.trim() !== "" ? (
+                    <Button
+                      color="inherit"
+                      startIcon={<ClearIcon />}
+                      onClick={() => clearSearch()}
+                      size="large"
+                    >
+                      Clear Search
+                    </Button>
+                  ) : (
+                    <Button
+                      color="inherit"
+                      startIcon={<SearchIcon />}
+                      onClick={() => searchCharacter()}
+                      size="large"
+                    >
+                      Search
+                    </Button>
+                  )}
+                </div>
+              </div>
             </Toolbar>
           </AppBar>
           {error ? (
