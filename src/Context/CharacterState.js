@@ -13,29 +13,27 @@ const CharacterState = (props) => {
     actualPage: 1,
   };
 
-  //   const [characters, setCharacters] = useState([]);
-  //   const [parameters, setParameters] = useState("");
-  //   const [pages, setPages] = useState(0);
-  //   const [actualPage, setActualPage] = useState(1);
-
   const setCharacters = (valor) => {
     dispatch({
       type: CHARACTERS,
       payload: valor,
     });
   };
+
   const setParameters = (valor) => {
     dispatch({
       type: PARAMETERS,
       payload: valor,
     });
   };
+
   const setPages = (valor) => {
     dispatch({
       type: PAGES,
       payload: valor,
     });
   };
+
   const setActualPage = (valor) => {
     dispatch({
       type: ACTUAL_PAGES,
@@ -59,7 +57,7 @@ const CharacterState = (props) => {
         setActualPage,
       }}
     >
-        {props.children }
+      {props.children}
     </CharacterContext.Provider>
   );
 };
