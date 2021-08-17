@@ -3,8 +3,8 @@ import Grid from "@material-ui/core/Grid";
 import Favourite from "./Favourite";
 import axios from "axios";
 import Typography from "@material-ui/core/Typography";
-import Navbar from "./Navbar";
-import CharacterContext from "../Context/CharacterContext";
+import Navbar from "../Navbar";
+import CharacterContext from "../../Context/CharacterContext";
 
 const Favourites = () => {
   let favourites = JSON.parse(localStorage.getItem("favourites"));
